@@ -134,10 +134,9 @@ fthampel_filter.grid(row=5, column=4)
 download.grid(row=7,column=1, columnspan=3, padx=10, pady=10)
 root.mainloop()
 
-
+# Test
 # filename = "20181202_25sec.mp3"
 # y, fs = librosa.load(filename)
-#
 # #os.system(filename) #play sound
 # #Rescale input
 # m = len(y)
@@ -148,7 +147,6 @@ root.mainloop()
 # Fourier_transforms.hampel_filter(dfty)
 # filtered = np.real(np.fft.ifft(dfty.filtered_signal))
 # i = 1
-# #filtered = np.fft.ifft(np.real(signal))
 # #filtered = np.real(np.fft.ifft(np.fft.fft(y)))
 # print(filtered.dtype, filtered.shape, fs)
 # write(str("filtered"+str(i)+".wav"), fs, filtered.astype(np.float32)) #y is float32
