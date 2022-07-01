@@ -9,5 +9,5 @@ The GUI is in "processing.py". It calls "transforms.py" where all the processing
 "screencapture.mp4" is a demo of how GUI works.
 "Orca_background.jpeg" is the background image of the GUI
 
-One can use the [fine-tuned 2stems spleeter model](https://drive.google.com/drive/folders/1WU3_z-U9m1UX2jREFHwOH99pMKhPEdnu?usp=sharing) to separate orca vocalizations from the audio. Make sure that the folder named "pretrained_models" is present in the same directory containing the "processing.py" file.
-One can use the [zeroshot model](https://drive.google.com/drive/folders/1RouwHsGsMs8n3l_jF8XifWtbPzur_YQS?usp=sharing). Create a folder "checkpoint" in the same directory containing the "processing.py" file and download the models in this folder.
+1. One can use the [fine-tuned 2stems spleeter model](https://drive.google.com/drive/folders/1WU3_z-U9m1UX2jREFHwOH99pMKhPEdnu?usp=sharing) to separate orca vocalizations from the audio. Make sure that the folder named "pretrained_models" is present in the same directory containing the "processing.py" file.
+2. One can use the [zeroshot model](https://drive.google.com/drive/folders/1RouwHsGsMs8n3l_jF8XifWtbPzur_YQS?usp=sharing). Create a folder "checkpoint" in the same directory containing the "processing.py" file and download the models in this folder.
