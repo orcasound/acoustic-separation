@@ -212,6 +212,22 @@ mse.grid(row=9, column=2)
 rmse.grid(row=9, column=3)
 separator1.grid(row=11, column=1, columnspan=3, padx=10, pady=10)
 separator2.grid(row=13, column=1, columnspan=3, padx=10, pady=10)
+
+Grid.rowconfigure(root,0, weight=1)
+Grid.columnconfigure(root, 0, weight=1)
+button_list = [ask_input, ftmoving_average,ftmedian_filter, fthampel_filter,
+               ftcubic_sgfir_filter, ftquartic_sgfir_filter, ftquintic_sgfir_filter,
+               ftbinomial_weighted_moving_average, ftbinomial_weighted_moving_average,
+               ftgaussian_expansion_moving_average, download, snr, mse, rmse,
+               separator2, separator1]
+row_number = 0
+col_number = 0
+for button in button_list:
+    Grid.rowconfigure(root,row_number, weight=1)
+    Grid.columnconfigure(root, col_number, weight=1)
+    row_number+=1
+    col_number+=1
+
 root.mainloop()
 
 # Test
