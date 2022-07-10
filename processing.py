@@ -3,14 +3,18 @@ import math
 import os
 import librosa
 import PIL.Image
+import scipy
 from PIL import ImageTk
 from scipy.io.wavfile import write
 from transforms import *
 from tkinter import *
-from tkinter import ttk
-from tkinter import filedialog
+from tkinter import ttk, filedialog, messagebox
 from collections import defaultdict
 from sklearn.metrics import mean_squared_error
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,
+NavigationToolbar2Tk)
 import subprocess
 
 
@@ -18,51 +22,25 @@ import subprocess
 #Open file
 root = Tk()
 root.title("Signal processing")
-root.geometry("1080x800")
+root.geometry("1080x700")
 dfty = Fourier_transforms()
 
 #Add vertical and horizontal sliders
 main_frame = Frame(root) #Create main frame
-#main_frame.grid(row=0,column=0,sticky="nsew") #frame has no attribute geometry
-# main_frame.grid(row=0,column=0,sticky="nsew", columnspan=2)
-# main_frame.place(x=0,y=0, anchor="nw", width=1080, height=800)
 main_frame.pack(fill=BOTH, expand=1)
-#main_frame.config(width=1080, height=800)
-#force grid to have 2 rows and 2 columns
-# main_frame.columnconfigure(0, weight=1)
-# main_frame.columnconfigure(1, weight=0)
-# main_frame.rowconfigure(0, weight=1)
-# row,column = main_frame.grid_size()
-# print(row, column)
 
 my_canvas = Canvas(main_frame)#Create background canvas
-# my_canvas.columnconfigure(0, weight=1)
-# my_canvas.columnconfigure(1, weight=1)
-# my_canvas.rowconfigure(0, weight=1)
-# my_canvas.rowconfigure(1, weight=1)
-# my_canvas.grid(row=0,column=0,sticky="nsw")
-# #my_canvas.config(width=1080, height=800)
-# my_canvas.place(x=0,y=0, anchor="nw", width=1080, height=800 )
 my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
 
 #Add scrollbar to canvas
 y_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
-# x_scrollbar = ttk.Scrollbar(main_frame, orient=HORIZONTAL, command=my_canvas.xview)
-# y_scrollbar.grid(row=0, column=column,sticky="nse")
 y_scrollbar.pack(side=RIGHT, fill=Y)
 #Configure background Canvas
-# my_canvas.configure(yscrollcommand=y_scrollbar.set, xscrollcommand=x_scrollbar.set)
 my_canvas.configure(yscrollcommand=y_scrollbar.set)
 my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
 
 second_frame = Frame(my_canvas) #Create another frame inside canvas
 second_frame.grid(row=0,column=0,sticky="nsew")
-#second_frame.config(width=1080, height=800)
-# second_frame.place(x=0,y=0, anchor="nw", width=1080, height=800)
-# second_frame.columnconfigure(0, weight=1)
-# second_frame.columnconfigure(1, weight=1)
-# second_frame.rowconfigure(0, weight=1)
-# second_frame.rowconfigure(1, weight=1)
 #Add new frame to window inside canvas
 my_canvas.create_window((0,0), window=second_frame, anchor="nw")
 
@@ -81,27 +59,27 @@ choose_ft_label = Label(second_frame, text="Fourier transforms")
 download_label = Label(second_frame, text="Download filtered files")
 choose_metric_label = Label(second_frame, text="Choose evaluation metric")
 separator_label = Label(second_frame, text="Separate Orca vocals")
+signals_plots = Label(second_frame, text="Power density plot")
 
 #Put labels on the screen
 ask_input_label.grid(row=0,column=0, columnspan=4, padx=10, pady=10)
+signals_plots.grid(row=0,column=3, columnspan=4, padx=10, pady=10)
 choose_filter_label.grid(row=2,column=0, columnspan=4, padx=10, pady=10)
 choose_ft_label.grid(row=3,column=0, columnspan=4, padx=10, pady=10)
 download_label.grid(row=6,column=0, columnspan=4, padx=10, pady=10)
 choose_metric_label.grid(row=8,column=0, columnspan=4, padx=10, pady=10)
 separator_label.grid(row=10,column=0, columnspan=4, padx=10, pady=10)
-
 #Open file
 def ask_input():
+    global y, fs, signals_dict, fsignals_dict,originals_dict, fs_dict
     root.filename = filedialog.askopenfilenames(initialdir="/orcasound",
                                                title="Select audios file",
                                                filetypes=(("Wav files", ".wav"), ("mp3 files", ".mp3")))
-
-def store_files(): #
-    global y, fs, signals_dict, fsignals_dict,originals_dict
     #print(type(root.filename), root.filename) #root.filename is a tuple
     signals_dict = defaultdict(lambda: "Not present") #contains filename, not actual signals
     originals_dict = defaultdict(lambda: "Not present") #contains original resized signals
     fsignals_dict = defaultdict(lambda: "Not present")#contains filtered signals
+    fs_dict = defaultdict(lambda: "Not present")#contains original signals sampling frequency
     for index, file in enumerate(root.filename):#save tuple of filenames in dict
         signals_dict[index]= file
     for i in range(len(signals_dict)): #filter each file of dict
@@ -112,6 +90,11 @@ def store_files(): #
         signal = np.fft.fft(y, n=n)
         dfty.signal= signal
         originals_dict[i] = signal
+        fs_dict[i] = fs
+
+
+def store_files(): #
+    for i in range(len(signals_dict)): #filter each file of dict
         if filter == "Moving average":
             Fourier_transforms.moving_average(dfty)
             fsignals_dict[i] = dfty.filtered_signal #filtered signals saved in fsignals_dict
@@ -136,6 +119,42 @@ def store_files(): #
         if filter == "Hampel filter":
             Fourier_transforms.hampel_filter(dfty)
             fsignals_dict[i] = dfty.filtered_signal
+
+
+# Plot spectrogram
+def plot():
+    if len(signals_dict)>1:
+        messagebox.showerror('Plot Error', 'Error: Plots available only for 1 file at a time!')
+    else:
+        # Toplevel object which willbe treated as a new window
+        newWindow = Toplevel(second_frame)
+        # sets the title of the Toplevel widget
+        newWindow.title("Spectrogram")
+        # A Label widget to show in toplevel
+        Label(newWindow).pack()
+        # the figure that will contain the plot
+        fig = plt.figure(figsize=(5, 5),dpi=100)
+        # Plot
+        f, Pxx_den = scipy.signal.welch(np.real(originals_dict[0]), fs_dict[0])
+        plt.semilogy(f / 1000, Pxx_den)
+        plt.title('Welch’s power spectral density estimate')
+        plt.xlabel('Frequency [kHz]')
+        plt.ylabel('PSD log scale(dB/kHz)')
+        plt.ylim([np.min(Pxx_den), np.max(Pxx_den)])
+        plt.xlim([np.min(f / 1000), np.max(f / 1000)])
+        # plt.text(0, 100, '$y=x^3$', fontsize=22)
+
+        # creating the Tkinter canvas containing the Matplotlib figure
+        canvas = FigureCanvasTkAgg(fig, master=newWindow)
+        canvas.draw()
+        # placing the canvas on the Tkinter window
+        canvas.get_tk_widget().pack()
+        # creating the Matplotlib toolbar
+        toolbar = NavigationToolbar2Tk(canvas,newWindow)
+        toolbar.update()
+        # placing the toolbar on the Tkinter window
+        canvas.get_tk_widget().pack()
+
 
 #metrics
 def signalPower(x):
@@ -213,14 +232,14 @@ def zeroshot():
 
 
 #Create buttons
-ask_input = Button(second_frame, text="Choose file from directory", padx=80, pady=20, command=ask_input)
+ask_input = Button(second_frame, text="Choose file from directory", padx=60, pady=20, command=ask_input)
 ftmoving_average = Button(second_frame, text="Moving average", padx=85, pady=20,
                           command=lambda: switch("Moving average"))
 ftbinomial_weighted_moving_average = Button(second_frame, text="Binomial weighted moving average", padx=40, pady=20,
                           command=lambda: switch("Binomial weighted moving average"))
 ftgaussian_expansion_moving_average = Button(second_frame, text="Gaussian expansion moving average", padx=40, pady=20,
                           command=lambda: switch("Gaussian expansion moving average"))
-ftcubic_sgfir_filter = Button(second_frame, text="Cubic-Weighted Savitzky-Golay", padx=40, pady=20,
+ftcubic_sgfir_filter = Button(second_frame, text="Cubic-Weighted Savitzky-Golay", padx=39, pady=20,
                           command=lambda: switch("Cubic-Weighted Savitzky-Golay"))
 ftquartic_sgfir_filter = Button(second_frame, text="Quartic-Weighted Savitzky-Golay", padx=40, pady=20,
                           command=lambda: switch("Quartic-Weighted Savitzky-Golay"))
@@ -238,42 +257,32 @@ mse = Button(second_frame, text="Mean Squared Error", padx=40, pady=20,
                           command=lambda: metrics("MSE"))
 rmse = Button(second_frame, text="Root Mean Squared Error", padx=40, pady=20,
                           command=lambda: metrics("RMSE"))
+spectrogram = Button(second_frame, text="Plot",padx=100, pady=20,
+                          command=plot)
 
 separator1 = Button(second_frame, text="Separate using Spleeter", padx=120, pady=20, command=spleeter, relief=SUNKEN)
 separator2 = Button(second_frame, text="Separate using Zero-shot model", padx=120, pady=20, command=zeroshot, relief=SUNKEN)
 
 
 #Put buttons on screen
-ask_input.grid(row=1,column=1, columnspan=3, padx=10, pady=10)
-ftmoving_average.grid(row=4, column=1)
-ftbinomial_weighted_moving_average.grid(row=4, column=2)
-ftgaussian_expansion_moving_average.grid(row=4, column=3)
-ftcubic_sgfir_filter.grid(row=4, column=4)
-ftquartic_sgfir_filter.grid(row=5, column=1)
-ftquintic_sgfir_filter.grid(row=5, column=2)
-ftmedian_filter.grid(row=5, column=3)
-fthampel_filter.grid(row=5, column=4)
+ask_input.grid(row=1,column=1, columnspan=1,sticky=E)
+spectrogram.grid(row=1, column=3, columnspan=1, sticky=W)
+ftmoving_average.grid(row=4, column=1, sticky=SE)
+ftbinomial_weighted_moving_average.grid(row=4, column=2,sticky=EW)
+ftgaussian_expansion_moving_average.grid(row=4, column=3,sticky=EW)
+ftcubic_sgfir_filter.grid(row=4, column=4, sticky=SW)
+ftquartic_sgfir_filter.grid(row=5, column=1,sticky=NE)
+ftquintic_sgfir_filter.grid(row=5, column=2,sticky=EW)
+ftmedian_filter.grid(row=5, column=3,sticky=EW)
+fthampel_filter.grid(row=5, column=4, sticky=NW)
 download.grid(row=7,column=1, columnspan=3, padx=10, pady=10)
-snr.grid(row=9, column=1)
-mse.grid(row=9, column=2)
-rmse.grid(row=9, column=3)
-separator1.grid(row=11, column=1, columnspan=3, padx=10, pady=10)
-separator2.grid(row=13, column=1, columnspan=3, padx=10, pady=10)
+snr.grid(row=9, column=1, sticky=E)
+mse.grid(row=9, column=2,sticky=EW)
+rmse.grid(row=9, column=3, sticky=W)
+separator1.grid(row=11, column=0, columnspan=3, sticky=E)
+separator2.grid(row=11, column=3, columnspan=3, sticky=W)
 
-# Grid.rowconfigure(root,0, weight=1)
-# Grid.columnconfigure(root, 0, weight=1)
-# button_list = [ask_input, ftmoving_average,ftmedian_filter, fthampel_filter,
-#                ftcubic_sgfir_filter, ftquartic_sgfir_filter, ftquintic_sgfir_filter,
-#                ftbinomial_weighted_moving_average, ftbinomial_weighted_moving_average,
-#                ftgaussian_expansion_moving_average, download, snr, mse, rmse,
-#                separator2, separator1]
-# row_number = 0
-# col_number = 0
-# for button in button_list:
-#     Grid.rowconfigure(root,row_number, weight=1)
-#     Grid.columnconfigure(root, col_number, weight=1)
-#     row_number+=1
-#     col_number+=1
+
 
 root.mainloop()
 
