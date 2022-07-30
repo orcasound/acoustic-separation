@@ -21,9 +21,14 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,
 NavigationToolbar2Tk)
 import subprocess
 from spleeterfunc.spleeter_separator import Separator
-from inference import inference
+from zeroshot.inference import inference
 
 
+
+SPLEETER_MODEL_PARAMS = 'spleeterfunc/2stems-finetune.json'
+SPLEETER_MODEL = 'spleeterfunc/2stems-finetune'
+ZEROSHOT_CHECKPOINT = 'checkpoints/zeroshot_asp_full.ckpt'
+HTSAT_CHECKPOINT = 'checkpoints/htsat_audioset_2048d.ckpt'
 
 
 #Open file
@@ -304,7 +309,7 @@ def downloading():
         write(str(filename), 44100, output.astype(np.float32))
 
 def spleeter():
-    model = Separator('2stems-finetune.json')
+    model = Separator(params_descriptor=SPLEETER_MODEL_PARAMS, model_path=SPLEETER_MODEL)
     for i in range(len(signals_dict)): #filter each file of dict
         waveform = preprocessed_dict[i]
         waveform = waveform.reshape((waveform.shape[0], 1)).astype(np.float32)
@@ -315,7 +320,8 @@ def spleeter():
 def zeroshot():
     for i in range(len(signals_dict)): #filter each file of dict
         waveform = preprocessed_dict[i]
-        output_dict = inference(waveform)
+        output_dict = inference(waveform,zeroshot_checkpoint=ZEROSHOT_CHECKPOINT, htsat_checkpoint=HTSAT_CHECKPOINT)
+        print(output_dict)
         orca_vocals = output_dict['orca']
         preprocessed_dict[i] = orca_vocals
 
