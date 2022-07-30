@@ -26,7 +26,7 @@ from zeroshot.inference import inference
 
 
 SPLEETER_MODEL_PARAMS = 'spleeterfunc/2stems-finetune.json'
-SPLEETER_MODEL = 'spleeterfunc/2stems-finetune'
+SPLEETER_MODEL = '2stems-finetune'
 ZEROSHOT_CHECKPOINT = 'checkpoints/zeroshot_asp_full.ckpt'
 HTSAT_CHECKPOINT = 'checkpoints/htsat_audioset_2048d.ckpt'
 
