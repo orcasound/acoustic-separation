@@ -23,13 +23,38 @@ from spleeter import SpleeterError
 from spleeter.audio.adapter import get_default_audio_adapter
 from spleeter.audio.convertor import to_stereo
 from spleeter.utils.configuration import load_configuration
-from spleeter.utils.estimator import create_estimator, get_default_model_dir
-from spleeter.model import EstimatorSpecBuilder, InputProviderFactory
+#from spleeter.utils.estimator import create_estimator, get_default_model_dir
+from spleeter.model import EstimatorSpecBuilder, InputProviderFactory, model_fn
 
 
 SUPPORTED_BACKEND: Container[str] = ('auto', 'tensorflow', 'librosa')
 """ """
 
+def create_estimator(model_dir, params, MWF):
+    """
+        Initialize tensorflow estimator that will perform separation
+
+        Params:
+        - params: a dictionary of parameters for building the model
+
+        Returns:
+            a tensorflow estimator
+    """
+    # Load model.
+    params['model_dir'] = model_dir
+    params['MWF'] = MWF
+    # Setup config
+    session_config = tf.compat.v1.ConfigProto()
+    session_config.gpu_options.per_process_gpu_memory_fraction = 0.7
+    config = tf.estimator.RunConfig(session_config=session_config)
+    # Setup estimator
+    estimator = tf.estimator.Estimator(
+        model_fn=model_fn,
+        model_dir=params['model_dir'],
+        params=params,
+        config=config
+    )
+    return estimator
 
 class DataGenerator():
     """
@@ -113,7 +138,7 @@ class Separator(object):
         :returns: generator of prediction.
         """
         if self._prediction_generator is None:
-            estimator = create_estimator(self._params, self._MWF)
+            estimator = create_estimator(self._model_path, self._params, self._MWF)
 
             def get_dataset():
                 return tf.data.Dataset.from_generator(
@@ -147,6 +172,7 @@ class Separator(object):
         :param waveform: Waveform to apply separation on.
         :returns: Separated waveforms.
         """
+        print("tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt")
         if not waveform.shape[-1] == 2:
             waveform = to_stereo(waveform)
         prediction_generator = self._get_prediction_generator()
@@ -224,6 +250,7 @@ class Separator(object):
     def _separate_librosa(self, waveform: np.ndarray, audio_id):
         """ Performs separation with librosa backend for STFT.
         """
+        print("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll")
         with self._tf_graph.as_default():
             out = {}
             features = self._get_features()
