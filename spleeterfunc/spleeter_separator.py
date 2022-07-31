@@ -172,7 +172,7 @@ class Separator(object):
         :param waveform: Waveform to apply separation on.
         :returns: Separated waveforms.
         """
-        print("tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt")
+        print("using tensorflow")
         if not waveform.shape[-1] == 2:
             waveform = to_stereo(waveform)
         prediction_generator = self._get_prediction_generator()
@@ -250,7 +250,7 @@ class Separator(object):
     def _separate_librosa(self, waveform: np.ndarray, audio_id):
         """ Performs separation with librosa backend for STFT.
         """
-        print("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll")
+        print("using librosa")
         with self._tf_graph.as_default():
             out = {}
             features = self._get_features()
