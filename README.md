@@ -22,6 +22,7 @@ The zeroshot audio source separator was also tested but it was outperformed by t
 The checkpoints for the zeroshot and the htsat models can be accessed from [here](https://drive.google.com/drive/folders/1RouwHsGsMs8n3l_jF8XifWtbPzur_YQS).
 
 ![original spetogram](assets/original.png)
+![orca vocals spetogram](assets/orca.png)
 
 ## Dataset used-
 The dataset used to train the model was extracted from al the PodCast rounds. Multiple orca vocals were extracted from the dataset and then randomly overlapped with noises from ships, boats and sea waves for data augmentation.
