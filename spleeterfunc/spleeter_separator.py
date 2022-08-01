@@ -100,7 +100,7 @@ class Separator(object):
             model_path,
             MWF: bool = False,
             stft_backend: str = 'auto',
-            multiprocess: bool = True):
+            multiprocess: bool = False):
         """ Default constructor.
 
         :param params_descriptor: Descriptor for TF params to be used.
