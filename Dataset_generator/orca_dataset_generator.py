@@ -13,12 +13,13 @@ class DataGenerator:
 
     def __init__(self, train_orca_calls_path, train_noise_path, val_orca_calls_path, val_noise_path):
         """Default constructor.
+
         :param train_orca_calls_path: Path to the directory containing isolated orca vocals to be used for training.
-        :param train_orca_calls_path: Path to the directory containing noise (from boats,ships,etc.) to be overlapped
-                                      with orca vocals for training.
+        :param train_noise_path: Path to the directory containing noise (from boats,ships,etc.) to be overlapped with
+                                 orca vocals for training.
         :param val_orca_calls_path: Path to the directory containing isolated orca vocals to be used for validation.
-        :param val_orca_calls_path: Path to the directory containing noise (from boats,ships,etc.) to be overlapped
-                                    with orca vocals for validation."""
+        :param val_noise_path: Path to the directory containing noise (from boats,ships,etc.) to be overlapped with
+                               orca vocals for validation."""
 
         self.train_orca_calls_path = train_orca_calls_path
         self.train_noise_path = train_noise_path
@@ -40,7 +41,6 @@ class DataGenerator:
         self.noise_files_train = glob.glob(self.train_noise_path + "/*.wav") + glob.glob(self.train_noise_path + "/*.mp3")
         self.orca_files_val = glob.glob(self.val_orca_calls_path + "/*.wav") + glob.glob(self.val_orca_calls_path + "/*.mp3")
         self.noise_files_val = glob.glob(self.val_noise_path + "/*.wav") + glob.glob(self.val_noise_path + "/*.mp3")
-        print(self.orca_files_train)
 
         self.training_callaudio = {}
         self.training_noiseaudio = {}
@@ -128,7 +128,10 @@ class DataGenerator:
 
             dataset = dataset.append(df, ignore_index=True)
 
-            print(noise_num, call_num)
+            if train:
+                print(f"Training dataset generated: {i+1} / {dataset_size}")
+            else:
+                print(f"Validation dataset generated: {i+1} / {dataset_size}")
 
             if noise_num == len(noise_files) and call_num == len(orca_files):
                 noise_num = 1
@@ -146,6 +149,7 @@ class DataGenerator:
 
     def generate_dataset(self, training_dataset_size, validation_dataset_size, output_path, channels=2):
         """Generates the dataset and saves the audio files in the specified directory.
+
         :param training_dataset_size: Size of the training dataset.
         :param validation_dataset_size: Size of the validation dataset.
         :param output_path: Directory where the dataset will be saved.
