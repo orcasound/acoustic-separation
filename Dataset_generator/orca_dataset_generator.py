@@ -8,8 +8,8 @@ import librosa
 from scipy.io import wavfile
 
 
-class DataGenerator(object):
-    """Wrapper for generating 'separation' dataset."""
+class DataGenerator:
+    """Helper class for generating 'separation' dataset."""
 
     def __init__(self, train_orca_calls_path, train_noise_path, val_orca_calls_path, val_noise_path):
         """Default constructor.
