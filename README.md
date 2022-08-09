@@ -1,15 +1,16 @@
 # Bioacoustic Source Separator
 This repository contains a GUI that can be used to preprocess and denoise hydrophone recordings, and to isolate orca vocalizations from them. Currently the filters can be applied only in the frequency domain. The denoising filters that are currently available to use are-
-*	Moving average
-*	Bionomial weighted moving average
-*	Gaussian expansion moving average
+*	Moving average filter (with steps of 100 Hz, accounting for a delay of half step)
+*	Moving weighted average filters (binomial and exponential weighting)
 *	Cubic-Weighted Savitzky-Golay
 *	Quartic-Weighted Savitzky-Golay
 *	Quintic-Weighted Savitzky-Golay
-*	Median filter
+*	Median filter (fitted with polynomial of degrees 2, 10, 12)
 *	Hampel filter
 
-The user can upload 1 or multiple mp3 or wav files, plot the spectrogram of the original audio (if only 1 sound is uploaded) using the button ‘Choose file from directory’. After that the user can choose the filtering technique, and download the filtered audio using the ‘Download’ button. For isolating orca vocals the user can choose one of the models available and download the isolated audio using the ‘Download’ button.
+A detailed analysis of Fourier Transforms techniques for underwater denoising can be found [here](https://www.orcasound.net/2022/08/08/orca-calls-analysis-for-acoustic-separation-from-ambra/).
+
+The user can upload 1 or multiple mp3 or wav files, using the button ‘Choose file from directory’. Then plot the Welch’s power spectral density plot of the original audio (if only 1 sound is uploaded) with 'Plot'. After that, the user can choose the filtering technique, and download the filtered audio using the ‘Download’ button. For isolating orca vocals the user can choose one of the models available and download the isolated audio using the ‘Download’ button.
 
 ## Separation Models-
 1.	Spleeter-
