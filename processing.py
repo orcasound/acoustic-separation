@@ -21,8 +21,8 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,
 NavigationToolbar2Tk)
 import subprocess
-#from spleeterfunc.spleeter_separator import Separator
-#from zeroshot.inference import inference
+from spleeterfunc.spleeter_separator import Separator
+from zeroshot.inference import inference
 
 
 
@@ -174,121 +174,121 @@ def zeroshot():
 
 
 
-#if __name__=='__main__':
-# Open file
-root = Tk()
-root.title("Signal processing")
-root.geometry("1080x700")
-dfty = Fourier_transforms()
-originals = Wavelet_transforms()
+if __name__=='__main__':
+    # Open file
+    root = Tk()
+    root.title("Signal processing")
+    root.geometry("1080x700")
+    dfty = Fourier_transforms()
+    originals = Wavelet_transforms()
 
-# Add vertical and horizontal sliders
-main_frame = Frame(root)  # Create main frame
-main_frame.pack(fill=BOTH, expand=1)
+    # Add vertical and horizontal sliders
+    main_frame = Frame(root)  # Create main frame
+    main_frame.pack(fill=BOTH, expand=1)
 
-my_canvas = Canvas(main_frame)  # Create background canvas
-my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+    my_canvas = Canvas(main_frame)  # Create background canvas
+    my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
 
-# Add scrollbar to canvas
-y_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
-y_scrollbar.pack(side=RIGHT, fill=Y)
-# Configure background Canvas
-my_canvas.configure(yscrollcommand=y_scrollbar.set)
-my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
+    # Add scrollbar to canvas
+    y_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
+    y_scrollbar.pack(side=RIGHT, fill=Y)
+    # Configure background Canvas
+    my_canvas.configure(yscrollcommand=y_scrollbar.set)
+    my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
 
-second_frame = Frame(my_canvas)  # Create another frame inside canvas
-second_frame.grid(row=0, column=0, sticky="nsew")
-# Add new frame to window inside canvas
-my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
+    second_frame = Frame(my_canvas)  # Create another frame inside canvas
+    second_frame.grid(row=0, column=0, sticky="nsew")
+    # Add new frame to window inside canvas
+    my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
 
-# Create background
-image = PIL.Image.open("Orca_background.jpeg")
-backGroundImage = ImageTk.PhotoImage(image.resize((1080, 800)))
-backGroundImageLabel = Label(second_frame, image=backGroundImage)
-backGroundImageLabel.place(x=0, y=0)
+    # Create background
+    image = PIL.Image.open("Orca_background.jpeg")
+    backGroundImage = ImageTk.PhotoImage(image.resize((1080, 800)))
+    backGroundImageLabel = Label(second_frame, image=backGroundImage)
+    backGroundImageLabel.place(x=0, y=0)
 
-# Create labels
-ask_input_label = Label(second_frame, text="Upload audio file")
-choose_filter_label = Label(second_frame, text="Choose processing technique")
-choose_ft_label = Label(second_frame, text="Fourier transforms")
-# signals_plots = Label(root, text="Power density plot")
-wavelet_label = Label(second_frame, text="Discrete wavelet transform")
-download_label = Label(second_frame, text="Download filtered files")
-choose_metric_label = Label(second_frame, text="Choose evaluation metric")
-separator_label = Label(second_frame, text="Separate Orca vocals")
-signals_plots = Label(second_frame, text="Power density plot")
+    # Create labels
+    ask_input_label = Label(second_frame, text="Upload audio file")
+    choose_filter_label = Label(second_frame, text="Choose processing technique")
+    choose_ft_label = Label(second_frame, text="Fourier transforms")
+    # signals_plots = Label(root, text="Power density plot")
+    wavelet_label = Label(second_frame, text="Discrete wavelet transform")
+    download_label = Label(second_frame, text="Download filtered files")
+    choose_metric_label = Label(second_frame, text="Choose evaluation metric")
+    separator_label = Label(second_frame, text="Separate Orca vocals")
+    signals_plots = Label(second_frame, text="Power density plot")
 
-# Put labels on the screen
-ask_input_label.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
-signals_plots.grid(row=0, column=3, columnspan=4, padx=10, pady=10)
-choose_filter_label.grid(row=2, column=0, columnspan=4, padx=10, pady=10)
-choose_ft_label.grid(row=3, column=0, columnspan=4, padx=10, pady=10)
-wavelet_label.grid(row=6, column=0, columnspan=4, padx=10, pady=10)
-download_label.grid(row=8, column=0, columnspan=4, padx=10, pady=10)
-choose_metric_label.grid(row=10, column=0, columnspan=4, padx=10, pady=10)
-separator_label.grid(row=12, column=0, columnspan=4, padx=10, pady=10)
+    # Put labels on the screen
+    ask_input_label.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+    signals_plots.grid(row=0, column=3, columnspan=4, padx=10, pady=10)
+    choose_filter_label.grid(row=2, column=0, columnspan=4, padx=10, pady=10)
+    choose_ft_label.grid(row=3, column=0, columnspan=4, padx=10, pady=10)
+    wavelet_label.grid(row=6, column=0, columnspan=4, padx=10, pady=10)
+    download_label.grid(row=8, column=0, columnspan=4, padx=10, pady=10)
+    choose_metric_label.grid(row=10, column=0, columnspan=4, padx=10, pady=10)
+    separator_label.grid(row=12, column=0, columnspan=4, padx=10, pady=10)
 
-# Create buttons
-ask_input = Button(second_frame, text="Choose file from directory", padx=60, pady=20, command=ask_input)
-spectrogram = Button(second_frame, text="Plot", padx=100, pady=20,
-                     command=lambda: plot(originals_dict, second_frame, fft_dict,fs_dict))
-ftmoving_average = Button(second_frame, text="Moving average", padx=85, pady=20,
-                          command=lambda: switch("Moving average"))
-ftbinomial_weighted_moving_average = Button(second_frame, text="Binomial weighted moving average", padx=40, pady=20,
-                                            command=lambda: switch("Binomial weighted moving average"))
-ftgaussian_expansion_moving_average = Button(second_frame, text="Gaussian expansion moving average", padx=40,
-                                             pady=20,
-                                             command=lambda: switch("Gaussian expansion moving average"))
-ftcubic_sgfir_filter = Button(second_frame, text="Cubic-Weighted Savitzky-Golay", padx=39, pady=20,
-                              command=lambda: switch("Cubic-Weighted Savitzky-Golay"))
-ftquartic_sgfir_filter = Button(second_frame, text="Quartic-Weighted Savitzky-Golay", padx=40, pady=20,
-                                command=lambda: switch("Quartic-Weighted Savitzky-Golay"))
-ftquintic_sgfir_filter = Button(second_frame, text="Quintic-Weighted Savitzky-Golay", padx=46, pady=20,
-                                command=lambda: switch("Quintic-Weighted Savitzky-Golay"))
-ftmedian_filter = Button(second_frame, text="Median filter", padx=103, pady=20,
-                         command=lambda: switch("Median filter"))
-fthampel_filter = Button(second_frame, text="Hampel filter", padx=88, pady=20,
-                         command=lambda: switch("Hampel filter"))
-wavelet_button = Button(second_frame, text="Wavelet denoising", padx=88, pady=20, command=lambda: switch("Wavelet"))
-display_wdetails = Button(second_frame, text="Plot wavelet details", padx=88, pady=20,
-                          command= lambda: plot_wavelet_details(originals_dict, fsignals_dict, second_frame, fft_dict,fs_dict, cD1, cD1t, cD2, cD2t, cD3, cD3t, cD4, cD4t, cD5, cD5t, XD))
-plot_wavelet = Button(second_frame, text="Plot denoised signal", padx=88, pady=20, command=lambda: plot_denoising_result(originals_dict, second_frame, fft_dict,fs_dict,fsignals_dict))
-download = Button(second_frame, text="Download", padx=120, pady=20, command=downloading, relief=SUNKEN)
+    # Create buttons
+    ask_input = Button(second_frame, text="Choose file from directory", padx=60, pady=20, command=ask_input)
+    spectrogram = Button(second_frame, text="Plot", padx=100, pady=20,
+                         command=lambda: plot(originals_dict, second_frame, fft_dict,fs_dict))
+    ftmoving_average = Button(second_frame, text="Moving average", padx=85, pady=20,
+                              command=lambda: switch("Moving average"))
+    ftbinomial_weighted_moving_average = Button(second_frame, text="Binomial weighted moving average", padx=40, pady=20,
+                                                command=lambda: switch("Binomial weighted moving average"))
+    ftgaussian_expansion_moving_average = Button(second_frame, text="Gaussian expansion moving average", padx=40,
+                                                 pady=20,
+                                                 command=lambda: switch("Gaussian expansion moving average"))
+    ftcubic_sgfir_filter = Button(second_frame, text="Cubic-Weighted Savitzky-Golay", padx=39, pady=20,
+                                  command=lambda: switch("Cubic-Weighted Savitzky-Golay"))
+    ftquartic_sgfir_filter = Button(second_frame, text="Quartic-Weighted Savitzky-Golay", padx=40, pady=20,
+                                    command=lambda: switch("Quartic-Weighted Savitzky-Golay"))
+    ftquintic_sgfir_filter = Button(second_frame, text="Quintic-Weighted Savitzky-Golay", padx=46, pady=20,
+                                    command=lambda: switch("Quintic-Weighted Savitzky-Golay"))
+    ftmedian_filter = Button(second_frame, text="Median filter", padx=103, pady=20,
+                             command=lambda: switch("Median filter"))
+    fthampel_filter = Button(second_frame, text="Hampel filter", padx=88, pady=20,
+                             command=lambda: switch("Hampel filter"))
+    wavelet_button = Button(second_frame, text="Wavelet denoising", padx=88, pady=20, command=lambda: switch("Wavelet"))
+    display_wdetails = Button(second_frame, text="Plot wavelet details", padx=88, pady=20,
+                              command= lambda: plot_wavelet_details(originals_dict, fsignals_dict, second_frame, fft_dict,fs_dict, cD1, cD1t, cD2, cD2t, cD3, cD3t, cD4, cD4t, cD5, cD5t, XD))
+    plot_wavelet = Button(second_frame, text="Plot denoised signal", padx=88, pady=20, command=lambda: plot_denoising_result(originals_dict, second_frame, fft_dict,fs_dict,fsignals_dict))
+    download = Button(second_frame, text="Download", padx=120, pady=20, command=downloading, relief=SUNKEN)
 
-snr = Button(second_frame, text="Signal-Noise Ratio", padx=85, pady=20,
-             command=lambda: metrics("SNR"))
-mse = Button(second_frame, text="Mean Squared Error", padx=40, pady=20,
-             command=lambda: metrics("MSE"))
-rmse = Button(second_frame, text="Root Mean Squared Error", padx=40, pady=20,
-              command=lambda: metrics("RMSE"))
+    snr = Button(second_frame, text="Signal-Noise Ratio", padx=85, pady=20,
+                 command=lambda: metrics("SNR"))
+    mse = Button(second_frame, text="Mean Squared Error", padx=40, pady=20,
+                 command=lambda: metrics("MSE"))
+    rmse = Button(second_frame, text="Root Mean Squared Error", padx=40, pady=20,
+                  command=lambda: metrics("RMSE"))
 
-separator1 = Button(second_frame, text="Separate using Spleeter", padx=120, pady=20, command=spleeter,
-                    relief=SUNKEN)
-separator2 = Button(second_frame, text="Separate using Zero-shot model", padx=120, pady=20, command=zeroshot,
-                    relief=SUNKEN)
+    separator1 = Button(second_frame, text="Separate using Spleeter", padx=120, pady=20, command=spleeter,
+                        relief=SUNKEN)
+    separator2 = Button(second_frame, text="Separate using Zero-shot model", padx=120, pady=20, command=zeroshot,
+                        relief=SUNKEN)
 
-# Put buttons on screen
-ask_input.grid(row=1, column=1, columnspan=1, sticky=E)
-spectrogram.grid(row=1, column=3, columnspan=1, sticky=W)
-ftmoving_average.grid(row=4, column=1, sticky=SE)
-ftbinomial_weighted_moving_average.grid(row=4, column=2, sticky=EW)
-ftgaussian_expansion_moving_average.grid(row=4, column=3, sticky=EW)
-ftcubic_sgfir_filter.grid(row=4, column=4, sticky=SW)
-ftquartic_sgfir_filter.grid(row=5, column=1, sticky=NE)
-ftquintic_sgfir_filter.grid(row=5, column=2, sticky=EW)
-ftmedian_filter.grid(row=5, column=3, sticky=EW)
-fthampel_filter.grid(row=5, column=4, sticky=NW)
-wavelet_button.grid(row=7, column=1, sticky=E)
-display_wdetails.grid(row=7, column=2, sticky=EW)
-plot_wavelet.grid(row=7, column=3, sticky=W)
-download.grid(row=9, column=1, columnspan=3, padx=10, pady=10)
-snr.grid(row=11, column=1, sticky=E)
-mse.grid(row=11, column=2, sticky=EW)
-rmse.grid(row=11, column=3, sticky=W)
-separator1.grid(row=13, column=0, columnspan=3, sticky=E)
-separator2.grid(row=13, column=3, columnspan=3, sticky=W)
+    # Put buttons on screen
+    ask_input.grid(row=1, column=1, columnspan=1, sticky=E)
+    spectrogram.grid(row=1, column=3, columnspan=1, sticky=W)
+    ftmoving_average.grid(row=4, column=1, sticky=SE)
+    ftbinomial_weighted_moving_average.grid(row=4, column=2, sticky=EW)
+    ftgaussian_expansion_moving_average.grid(row=4, column=3, sticky=EW)
+    ftcubic_sgfir_filter.grid(row=4, column=4, sticky=SW)
+    ftquartic_sgfir_filter.grid(row=5, column=1, sticky=NE)
+    ftquintic_sgfir_filter.grid(row=5, column=2, sticky=EW)
+    ftmedian_filter.grid(row=5, column=3, sticky=EW)
+    fthampel_filter.grid(row=5, column=4, sticky=NW)
+    wavelet_button.grid(row=7, column=1, sticky=E)
+    display_wdetails.grid(row=7, column=2, sticky=EW)
+    plot_wavelet.grid(row=7, column=3, sticky=W)
+    download.grid(row=9, column=1, columnspan=3, padx=10, pady=10)
+    snr.grid(row=11, column=1, sticky=E)
+    mse.grid(row=11, column=2, sticky=EW)
+    rmse.grid(row=11, column=3, sticky=W)
+    separator1.grid(row=13, column=0, columnspan=3, sticky=E)
+    separator2.grid(row=13, column=3, columnspan=3, sticky=W)
 
-root.mainloop()
+    root.mainloop()
 
 
 # # Test
