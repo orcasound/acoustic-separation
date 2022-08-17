@@ -21,15 +21,16 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,
 NavigationToolbar2Tk)
 import subprocess
-from spleeterfunc.spleeter_separator import Separator
-from zeroshot.inference import inference
+from models.spleeter.spleeter_separator import Separator
+from models.zeroshot.inference import inference
 
 
 
-SPLEETER_MODEL_PARAMS = 'spleeterfunc/2stems-finetune.json'
+SPLEETER_MODEL_PARAMS = 'models/spleeter/2stems-finetune.json'
 SPLEETER_MODEL = '2stems-finetune'
 ZEROSHOT_CHECKPOINT = 'checkpoints/zeroshot_asp_full.ckpt'
 HTSAT_CHECKPOINT = 'checkpoints/htsat_audioset_2048d.ckpt'
+QUERY_DIRECTORY = 'models/zeroshot/query'
 
 
 #Open file
@@ -158,16 +159,15 @@ def spleeter():
     model = Separator(params_descriptor=SPLEETER_MODEL_PARAMS, model_path=SPLEETER_MODEL)
     for i in range(len(signals_dict)): #filter each file of dict
         waveform = preprocessed_dict[i]
-        waveform = waveform.reshape((waveform.shape[0], 1)).astype(np.float32)
-        orca_vocals = model.return_source_dictionary(waveform, 44100)['orca_vocals']
+        orca_vocals = model.return_source_dictionary(waveform)['orca_vocals']
         orca_vocals = orca_vocals[:,1]
         preprocessed_dict[i] = orca_vocals
 
 def zeroshot():
     for i in range(len(signals_dict)): #filter each file of dict
         waveform = preprocessed_dict[i]
-        output_dict = inference(waveform,zeroshot_checkpoint=ZEROSHOT_CHECKPOINT, htsat_checkpoint=HTSAT_CHECKPOINT)
-        print(output_dict)
+        output_dict = inference(waveform,zeroshot_checkpoint=ZEROSHOT_CHECKPOINT, htsat_checkpoint=HTSAT_CHECKPOINT,
+                                query_directory=QUERY_DIRECTORY)
         orca_vocals = output_dict['orca']
         preprocessed_dict[i] = orca_vocals
 
