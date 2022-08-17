@@ -2,7 +2,7 @@
 Spleeter uses a U-Net architecture for source separation. U-Nets input a spectrogram and perform a series of 2D convolutions, each of which producing an encoding of a smaller and smaller representation of the input. The small representation at the centre is then scaled back up by decoding with the same number of 2D deconvolutional layers (sometimes called transpose convolution), each of which corresponds to the shape of one of the convolutional encoding layers. Each of the encoding layers is concatenated to the corresponding decoding layers.<br/>
 The final mask is multiplied by the input mixture and the loss is taken between the ground truth source spectrogram and mixture spectrogram with the estimated mask applied, as per usual.<br/>
 Because the U-Net is convolutional, it must process a spectrogram that has a fixed shape. In other words, an audio signal must be broken up into spectrograms with the same number of time and frequency dimensions that the U-Net was trained with.
-![U-net]<img src="https://github.com/orcasound/acoustic-separation/blob/main/assets/U-net.png" width="250" height="250">
+![U-net]<img src="https://github.com/orcasound/acoustic-separation/blob/main/assets/U-net.png" width="500" height="400">
 
 ## Loss Function-
 The loss function used to train the model is the L<sub>1,1</sub> norm of the difference of the target spectrogram and the masked input spectrogram:<br/>
@@ -12,9 +12,9 @@ where f(X, Θ) is the output of the network model applied to the input X with pa
 You can find the original paper about the U-Net architecture here-https://ejhumphrey.com/assets/pdf/jansson2017singing.pdf
 
 ## Validation Loss Curves-
-![absolute difference]<img src="https://github.com/orcasound/acoustic-separation/blob/main/assets/absolute%20difference.png" width="100" height="100">
-![vocals]<img src="https://github.com/orcasound/acoustic-separation/blob/main/assets/vocals.png" width="100" height="100">
-![accompaniment]<img src="https://github.com/orcasound/acoustic-separation/blob/main/assets/accompaniment.png" width="100" height="100">
+<img src="https://github.com/orcasound/acoustic-separation/blob/main/assets/absolute%20difference.png" width="600" height="400">
+<img src="https://github.com/orcasound/acoustic-separation/blob/main/assets/vocals.png" width="600" height="400">
+<img src="https://github.com/orcasound/acoustic-separation/blob/main/assets/accompaniment.png" width="600" height="400">
 
 ## Evaluation Metrics-
 
