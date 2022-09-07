@@ -56,13 +56,15 @@ class Wavelet_transforms:
         self.original = original # original signal resized
 
     def denoise(self):
+        #code for changing symlet 6 to different types, lengths or levels
         # w = pywt.Wavelet('sym6')
         # maxlev = pywt.dwt_max_level(len(self.original), w.dec_len)
         # # Get detail coefficients
-        # coeffs = pywt.wavedec(self.original, 'sym6', level=maxlev)
+        # coeffs = pywt.wavedec(self.original, 'sym6', level=10)
         # for i in range(1, len(coeffs)):
-        #     coeffs[i] = pywt.threshold(coeffs[i], 0.5 * max(coeffs[i]))
-        # self.filtered_signal = pywt.waverec(coeffs, 'sym6')
+        #     coeffs[i] = pywt.threshold(coeffs[i], 0.25 * max(coeffs[i]))
+        # XD = pywt.waverec(coeffs, 'sym6')
+
         (cA5, cD5, cD4, cD3, cD2, cD1) = pywt.wavedec(self.original, 'sym6', level=5)
         # Apply soft thresholding
         threshold = 0.25  # Threshold for filtering
@@ -74,6 +76,7 @@ class Wavelet_transforms:
         cD1t = pywt.threshold(cD1, threshold * max(cD1), mode='garrote')
         # Multilevel reconstruction from coefficients
         XD = pywt.waverec([cA5t, cD5t, cD4t, cD3t, cD2t, cD1t], 'sym6')
+
         # Match original size with reconstruction size
         if self.original.shape[0] < XD.shape[0]:
             num = XD.shape[0] - self.original.shape[0]
@@ -82,3 +85,4 @@ class Wavelet_transforms:
         # Filtered signal is the subtraction between the original signal and the boat sound XD
         self.filtered_signal = np.fft.fft(self.original-XD)
         return self.filtered_signal, cA5, cD5, cD4, cD3, cD2, cD1, cA5t, cD5t, cD4t, cD3t, cD2t, cD1t, XD
+        # return self.filtered_signal, XD #code for changing symlet 6 to different types, lengths or levels
