@@ -21,16 +21,11 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,
 NavigationToolbar2Tk)
 import subprocess
-# from models.spleeter.spleeter_separator import Separator
-# from models.zeroshot.inference import inference
-#
-#
-#
-# SPLEETER_MODEL_PARAMS = 'models/spleeter/2stems-finetune.json'
-# SPLEETER_MODEL = '2stems-finetune'
-# ZEROSHOT_CHECKPOINT = 'checkpoints/zeroshot_asp_full.ckpt'
-# HTSAT_CHECKPOINT = 'checkpoints/htsat_audioset_2048d.ckpt'
-# QUERY_DIRECTORY = 'models/zeroshot/query'
+from spleeter_separator import Separator
+
+
+SPLEETER_MODEL_PARAMS = '2stems-finetune.json'
+SPLEETER_MODEL = '2stems-finetune'
 
 
 #Open file
@@ -164,16 +159,6 @@ def spleeter():
         orca_vocals = orca_vocals[:,1]
         preprocessed_dict[i] = orca_vocals
 
-def zeroshot():
-    for i in range(len(signals_dict)): #filter each file of dict
-        waveform = preprocessed_dict[i]
-        output_dict = inference(waveform,zeroshot_checkpoint=ZEROSHOT_CHECKPOINT, htsat_checkpoint=HTSAT_CHECKPOINT,
-                                query_directory=QUERY_DIRECTORY)
-        orca_vocals = output_dict['orca']
-        preprocessed_dict[i] = orca_vocals
-
-
-
 
 if __name__=='__main__':
     # Open file
@@ -265,8 +250,6 @@ if __name__=='__main__':
 
     separator1 = Button(second_frame, text="Separate using Spleeter", padx=120, pady=20, command=spleeter,
                         relief=SUNKEN)
-    separator2 = Button(second_frame, text="Separate using Zero-shot model", padx=120, pady=20, command=zeroshot,
-                        relief=SUNKEN)
 
     # Put buttons on screen
     ask_input.grid(row=1, column=1, columnspan=1, sticky=E)
@@ -287,7 +270,6 @@ if __name__=='__main__':
     mse.grid(row=11, column=2, sticky=EW)
     rmse.grid(row=11, column=3, sticky=W)
     separator1.grid(row=13, column=0, columnspan=3, sticky=E)
-    separator2.grid(row=13, column=3, columnspan=3, sticky=W)
 
     root.mainloop()
 
