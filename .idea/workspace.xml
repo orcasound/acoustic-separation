@@ -3,10 +3,95 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="3df4bf37-98fd-4118-b37b-4a35a2070fa7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/assets/U-net.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/assets/absolute difference.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/assets/accompaniment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/assets/orca.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/assets/original.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/assets/vocals.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/spleeter/2stems-finetune.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/spleeter/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/spleeter/spleeter_separator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/data_processor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/evaluations.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/htsat_config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/htsat_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/inference.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/losses.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/models/asp_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/models/htsat.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/models/layers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/models/test_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/opt_thres.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/query/call-examples.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/sed_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/models/zeroshot/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deep-Learning-Separation/notebooks/Spleeter.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/acoustic-separation.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/U-net.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/absolute difference.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/accompaniment.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/orca.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/original.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/vocals.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/spleeter/2stems-finetune.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/spleeter/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/spleeter/spleeter_separator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/data_processor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/evaluations.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/htsat_config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/htsat_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/inference.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/losses.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/models/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/models/asp_model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/models/htsat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/models/layers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/models/test_model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/opt_thres.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/query/call-examples.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/sed_model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zeroshot/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/Spleeter.ipynb" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,12 +109,9 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "last_opened_file_path": "C:/Users/Ambra/Desktop/acoustic-separation",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Ambra\Desktop\acoustic-separation" />
@@ -128,6 +210,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
