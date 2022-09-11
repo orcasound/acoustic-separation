@@ -22,8 +22,8 @@ You can try out the fine-tuned spleeter model on [Google colab](https://colab.re
 The zeroshot audio source separator was also tested but it was outperformed by the Spleeter model. One can also use the Zeroshot model to separate orca vocals. One can use the ‘instance’ function defined in the Python file- ‘zeroshot/instance.py’ which takes the path to the pre-trained zeroshot model checkpoint, and the pre-trained htsat model checkpoint. It also returns a dictionary same as the Spleeter model.
 The checkpoints for the zeroshot and the htsat models can be accessed from [here](https://drive.google.com/drive/folders/1RouwHsGsMs8n3l_jF8XifWtbPzur_YQS).
 
-![original spetogram](assets/original.png)
-![orca vocals spetogram](assets/orca.png)
+![original spetogram](Deep-Learning-Separation/assets/original.png)
+![orca vocals spetogram](Deep-Learning-Separation/assets/orca.png)
 
 ## Dataset used-
 The dataset used to train the model was extracted from al the PodCast rounds. Multiple orca vocals were extracted from the dataset and then randomly overlapped with noises from ships, boats and sea waves for data augmentation.
