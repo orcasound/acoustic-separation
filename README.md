@@ -1,4 +1,11 @@
 # Bioacoustic Source Separator
+This is repository made by Devdoot Chatterjee and Ambra Jin for their Google Summer of Code projects 2022. It contains the following folders:
+- Dataset generator
+- Deep Learning Separation
+- GUI
+- Signal anlysis
+- Data
+## Description
 This repository contains a GUI that can be used to preprocess and denoise hydrophone recordings, and to isolate orca vocalizations from them. Currently the filters can be applied only in the frequency domain. The denoising filters that are currently available to use are-
 *	Moving average filter (with steps of 100 Hz, accounting for a delay of half step)
 *	Moving weighted average filters (binomial and exponential weighting)
